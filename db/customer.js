@@ -41,7 +41,6 @@ const addNew = (req, res) => {
       console.error(err);
       res.status(500).json({message: 'there are some errors'});
     } else {
-      console.log(result);
       let newCustomer = {firstname, lastname, email, phone};
       res.status(200).json(newCustomer);
     }
@@ -55,7 +54,6 @@ const deleteById = (req, res) => {
       console.error(err);
       res.status(500).json({message: 'there are some errors'});
     } else {
-      console.log(result);
       if (result.rowCount) {
         res.status(204).json({'message': 'delete success'});
       } else {
@@ -77,7 +75,6 @@ const updateById = (req, res) => {
       console.error(err);
       res.status(500).json({message: 'there are some errors'});
     } else {
-      console.log(result);
       if (result.rowCount) {
         let updatedCustomer = {firstname, lastname, email, phone};
         res.status(200).json(updatedCustomer);
@@ -88,10 +85,20 @@ const updateById = (req, res) => {
   });
 };
 
+// Delete all
+const deleteAll = () => {
+  db.query('DELETE FROM customers', (err, res) => {
+    if (err) {
+      return console.error('Error executing query', err.stack)
+    }
+  })
+}
+
 module.exports = {
   fetchAll,
   addNew,
   fetchById,
   deleteById,
-  updateById
+  updateById,
+  deleteAll
 };
